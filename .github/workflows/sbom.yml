@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  generate-sbom:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,15 +17,23 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'adopt'
 
-      - name: Build and test Scala project
-        run: sbt clean test
+      - name: Install sbt
+        run: |
+          curl -L -o sbt-1.5.5.deb https://dl.bintray.com/sbt/debian/sbt-1.5.5.deb
+          sudo dpkg -i sbt-1.5.5.deb
+          sudo apt-get update
+          sudo apt-get install sbt
+
+      - name: Build project
+        run: sbt compile
 
       - name: Generate SBOM
         run: sbt bomGenerate
 
-      - name: Upload SBOM artifact
+      - name: Upload SBOM
         uses: actions/upload-artifact@v2
         with:
           name: sbom
-          path: target/bom.xml
+          path: bom.xml
