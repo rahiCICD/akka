@@ -21,10 +21,11 @@ jobs:
 
       - name: Install sbt
         run: |
-          curl -L -o sbt-1.5.5.deb https://dl.bintray.com/sbt/debian/sbt-1.5.5.deb
-          sudo dpkg -i sbt-1.5.5.deb
-          sudo apt-get update
-          sudo apt-get install sbt
+          curl -L -o sbt-1.5.5.zip https://github.com/sbt/sbt/releases/download/v1.5.5/sbt-1.5.5.zip
+          unzip sbt-1.5.5.zip
+          sudo mv sbt /usr/local/sbt
+          echo 'export PATH="/usr/local/sbt/bin:$PATH"' >> $HOME/.bashrc
+          source $HOME/.bashrc
 
       - name: Add sbt-bom plugin
         run: echo 'addSbtPlugin("io.github.siculo" %% "sbt-bom" % "0.3.0")' >> project/plugins.sbt
