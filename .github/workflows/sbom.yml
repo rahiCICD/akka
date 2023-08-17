@@ -1,0 +1,31 @@
+name: Generate SBOM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+
+      - name: Build and test Scala project
+        run: sbt clean test
+
+      - name: Generate SBOM
+        run: sbt bomGenerate
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: sbom
+          path: target/bom.xml
