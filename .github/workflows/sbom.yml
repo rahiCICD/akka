@@ -26,6 +26,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install sbt
 
+      - name: Add sbt-bom plugin
+        run: echo 'addSbtPlugin("io.github.siculo" %% "sbt-bom" % "0.3.0")' >> project/plugins.sbt
+
       - name: Build project
         run: sbt compile
 
