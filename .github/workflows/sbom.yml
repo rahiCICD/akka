@@ -34,7 +34,7 @@ jobs:
         run: sbt compile
 
       - name: Generate SBOM
-        run: sbt bomGenerate
+        run: sbt makeBom
 
       - name: Move and Merge SBOM
         run: |
