@@ -34,10 +34,16 @@ jobs:
         run: sbt compile
 
       - name: Generate SBOM
-        run: sbt makeBom
+        run: sbt bomGenerate
+
+      - name: Move and Merge SBOM
+        run: |
+          mkdir merged_bom
+          find . -regex '.*/[^/]+.0-SNAPSHOT\.bom\.xml' -exec mv {} merged_bom/ \;
+          cat merged_bom/*.bom.xml > merged_bom/merged_bom.xml
 
       - name: Upload SBOM
         uses: actions/upload-artifact@v2
         with:
           name: sbom
-          path: bom.xml
+          path: merged_bom/merged_bom.xml
