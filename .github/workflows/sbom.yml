@@ -34,7 +34,7 @@ jobs:
         run: sbt compile
 
       - name: Generate SBOM
-        run: sbt bomGenerate
+        run: sbt makeBom
 
       - name: Upload SBOM
         uses: actions/upload-artifact@v2
