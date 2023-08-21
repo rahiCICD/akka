@@ -49,31 +49,31 @@ jobs:
           python3 -m pip install openpyxl
           python3 - <<EOF
 
-import xml.etree.ElementTree as ET
+          import xml.etree.ElementTree as ET
 
-import openpyxl
+          import openpyxl
 
-tree = ET.parse('merged_bom/merged_bom.xml')
-root = tree.getroot()
+          tree = ET.parse('merged_bom/merged_bom.xml')
+          root = tree.getroot()
 
-workbook = openpyxl.Workbook()
-sheet = workbook.active
+          workbook = openpyxl.Workbook()
+          sheet = workbook.active
 
-headers = ['Component', 'Group', 'Name', 'Version', 'Scope']
-sheet.append(headers)
+          headers = ['Component', 'Group', 'Name', 'Version', 'Scope']
+          sheet.append(headers)
 
-for component in root.findall('.//{http://cyclonedx.org/schema/bom/1.0}component'):
-    component_type = component.get('type')
-    group = component.find('{http://cyclonedx.org/schema/bom/1.0}group').text
-    name = component.find('{http://cyclonedx.org/schema/bom/1.0}name').text
-    version = component.find('{http://cyclonedx.org/schema/bom/1.0}version').text
-    scope = component.find('{http://cyclonedx.org/schema/bom/1.0}scope').text
+          for component in root.findall('.//{http://cyclonedx.org/schema/bom/1.0}component'):
+          component_type = component.get('type')
+          group = component.find('{http://cyclonedx.org/schema/bom/1.0}group').text
+          name = component.find('{http://cyclonedx.org/schema/bom/1.0}name').text
+          version = component.find('{http://cyclonedx.org/schema/bom/1.0}version').text
+          scope = component.find('{http://cyclonedx.org/schema/bom/1.0}scope').text
 
-    row = [component_type, group, name, version, scope]
-    sheet.append(row)
+          row = [component_type, group, name, version, scope]
+          sheet.append(row)
 
-workbook.save('components.csv')
-EOF
+          workbook.save('components.csv')
+          EOF
 
       - name: Upload CSV
         uses: actions/upload-artifact@v2
