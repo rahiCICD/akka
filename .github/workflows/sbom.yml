@@ -50,7 +50,6 @@ jobs:
           python3 - <<EOF
           
 import xml.etree.ElementTree as ET
-
 import openpyxl
 
 tree = ET.parse('merged_bom/merged_bom.xml')
