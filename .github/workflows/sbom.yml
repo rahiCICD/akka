@@ -48,9 +48,7 @@ jobs:
         run: |
           python3 -m pip install openpyxl
           python3 - <<EOF
-
           import xml.etree.ElementTree as ET
-
           import openpyxl
 
           tree = ET.parse('merged_bom/merged_bom.xml')
@@ -74,7 +72,6 @@ jobs:
 
           workbook.save('components.csv')
           EOF
-
       - name: Upload CSV
         uses: actions/upload-artifact@v2
         with:
