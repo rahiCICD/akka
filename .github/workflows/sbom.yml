@@ -41,7 +41,7 @@ jobs:
       - name: Move and Merge SBOM
         run: |
           mkdir merged_bom
-          find . -regex '.*/[^/]+\.0-SNAPSHOT\.bom\.xml' -exec mv {} merged_bom/ \;
+          find . -name "*.bom.xml" -exec mv {} merged_bom/ \;
           cat merged_bom/*.bom.xml > merged_bom/merged_bom.xml
 
       - name: Upload SBOM
