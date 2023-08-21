@@ -50,6 +50,34 @@ jobs:
           find . -name "*.bom.xml" -exec mv {} merged_bom/ \;
           cat merged_bom/*.bom.xml > merged_bom/merged_bom.xml
 
+      - name: Run Python script
+        run: |
+          python3 - << EOF
+          import xml.etree.ElementTree as ET
+          import openpyxl
+          import glob
+
+          xml_files = glob.glob('merged_bom/*.bom.xml')
+          workbook = openpyxl.Workbook()
+          sheet = workbook.active
+          headers = ['Component', 'Group', 'Name', 'Version', 'Scope']
+          sheet.append(headers)
+
+          for xml_file in xml_files:
+           tree = ET.parse(xml_file)
+           root = tree.getroot()
+           for component in root.findall('.//{http://cyclonedx.org/schema/bom/1.0}component'):
+            component_type = component.get('type')
+            group = component.find('{http://cyclonedx.org/schema/bom/1.0}group').text
+            name = component.find('{http://cyclonedx.org/schema/bom/1.0}name').text
+            version = component.find('{http://cyclonedx.org/schema/bom/1.0}version').text
+            scope = component.find('{http://cyclonedx.org/schema/bom/1.0}scope').text
+            row = [component_type, group, name, version, scope]
+            sheet.append(row)
+
+          workbook.save('merged_bom/components.xlsx')
+          EOF
+
       - name: Upload SBOM
         uses: actions/upload-artifact@v2
         with:
