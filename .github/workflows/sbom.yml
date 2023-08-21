@@ -48,7 +48,8 @@ jobs:
         run: |
           python3 -m pip install openpyxl
           python3 - <<EOF
-          import xml.etree.ElementTree as ET, openpyxl
+          import xml.etree.ElementTree as ET
+          import openpyxl
 
           tree = ET.parse('merged_bom/merged_bom.xml')
           root = tree.getroot()
