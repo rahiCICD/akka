@@ -86,4 +86,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: sbom
-          path: merged_bom/merged_bom.xml
+          path: merged_bom/components.xlsx
