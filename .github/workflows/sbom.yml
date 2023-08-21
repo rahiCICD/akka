@@ -50,6 +50,10 @@ jobs:
           find . -name "*.bom.xml" -exec mv {} merged_bom/ \;
           cat merged_bom/*.bom.xml > merged_bom/merged_bom.xml
 
+      - name: Install openpyxl
+        run: |
+          python3 -m pip install openpyxl   
+ 
       - name: Run Python script
         run: |
           python3 - << EOF
