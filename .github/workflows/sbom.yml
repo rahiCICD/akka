@@ -48,7 +48,6 @@ jobs:
         run: |
           python3 -m pip install openpyxl
           python3 - <<EOF
-          
 import xml.etree.ElementTree as ET
 import openpyxl
 
@@ -61,19 +60,18 @@ sheet = workbook.active
 headers = ['Component', 'Group', 'Name', 'Version', 'Scope']
 sheet.append(headers)
 
-for component in root.findall('.//component'):
+for component in root.findall('.//{http://cyclonedx.org/schema/bom/1.0}component'):
     component_type = component.get('type')
-    group = component.find('group').text
-    name = component.find('name').text
-    version = component.find('version').text
-    scope = component.find('scope').text
+    group = component.find('{http://cyclonedx.org/schema/bom/1.0}group').text
+    name = component.find('{http://cyclonedx.org/schema/bom/1.0}name').text
+    version = component.find('{http://cyclonedx.org/schema/bom/1.0}version').text
+    scope = component.find('{http://cyclonedx.org/schema/bom/1.0}scope').text
 
     row = [component_type, group, name, version, scope]
     sheet.append(row)
 
 workbook.save('components.csv')
 EOF
-
       - name: Upload CSV
         uses: actions/upload-artifact@v2
         with:
