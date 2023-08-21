@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          repository: rahiCICD/sbt
+          repository: rahiCICD/akka
 
       - name: Set up Java
         uses: actions/setup-java@v2
@@ -23,6 +23,10 @@ jobs:
 
       - name: Install sbt
         run: |
+          # Clean up any existing sbt directory or file
+          rm -rf sbt sbt-1.5.5.zip
+
+          # Download and extract sbt
           curl -L -o sbt-1.5.5.zip https://github.com/sbt/sbt/releases/download/v1.5.5/sbt-1.5.5.zip
           unzip sbt-1.5.5.zip
           sudo mv sbt /usr/local/sbt
