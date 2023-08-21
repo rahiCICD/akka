@@ -1,4 +1,4 @@
-name: Generate SBOM
+name: Generate SBOM and Convert to CSV
 
 on:
   push:
@@ -44,8 +44,19 @@ jobs:
           find . -name "*.bom.xml" -exec mv {} merged_bom/ \;
           cat merged_bom/*.bom.xml > merged_bom/merged_bom.xml
 
-      - name: Upload SBOM
+      - name: Convert SBOM to CSV
+        run: |
+          curl -o xmlstarlet.tar.gz -L http://downloads.sourceforge.net/project/xmlstar/xmlstarlet/1.6.1/xmlstarlet-1.6.1.tar.gz
+          tar -xzf xmlstarlet.tar.gz
+          cd xmlstarlet-1.6.1
+          ./configure
+          make
+          sudo make install
+          cd ..
+          xmlstarlet sel -T -t -m "//dependency" -v "artifactId" -o "," -v "version" -n merged_bom/merged_bom.xml > merged_bom/merged_bom.csv
+
+      - name: Upload CSV
         uses: actions/upload-artifact@v2
         with:
-          name: sbom
-          path: merged_bom/merged_bom.xml
+          name: csv
+          path: merged_bom/merged_bom.csv
