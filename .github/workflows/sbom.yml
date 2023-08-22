@@ -33,7 +33,7 @@ jobs:
           echo 'export PATH="/usr/local/sbt/bin:$PATH"' >> $HOME/.bashrc
           source $HOME/.bashrc
 
-      - name: Add sbt-bom plugin
+      - name: Add sbt-bom plugin  #test
         run: |
           mkdir -p project
           echo 'addSbtPlugin("io.github.siculo" % "sbt-bom" % "0.3.0")' >> project/plugins.sbt
