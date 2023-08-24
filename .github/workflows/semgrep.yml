@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 'adopt@1.11'
+          distribution: 'adopt'
 
       - name: Install Semgrep
         run: curl -L https://semgrep.dev/install.sh | sh
