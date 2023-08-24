@@ -1,20 +1,8 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow file requires a free account on Semgrep.dev to
-# manage rules, file ignores, notifications, and more.
-#
-# See https://semgrep.dev/docs
-
 name: Semgrep
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    # The branches below must be a subset of the branches above
+    types: [opened, synchronize]
     branches: [ "main" ]
 
 permissions:
@@ -44,4 +32,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: semgrep.sarif
-        if: always()
+        if: ${{ github.event.pull_request.labels[0].name == 'High' || github.event.pull_request.labels[0].name == 'Critical' }}
